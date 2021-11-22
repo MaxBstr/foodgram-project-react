@@ -11,7 +11,14 @@ SECRET_KEY = os.environ.get('DJANGO_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = [
+	'178.154.241.226',
+	'maxbstr.ydns.eu',
+	'localhost',
+	'[::1]',
+	'testserver',
+	'*'
+]
 
 CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
 
