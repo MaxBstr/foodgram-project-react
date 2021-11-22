@@ -49,3 +49,5 @@ docker-compose up -d --build
 - sudo docker-compose exec backend python manage.py loaddata ingredients.json
 ```
 
+## Тестовые пользователи:
+### Админ: admin@admin.com admin123
