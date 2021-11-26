@@ -87,7 +87,12 @@ class IngredientRecipe(models.Model):
     class Meta:
         verbose_name = 'Ингредиент рецепта'
         verbose_name_plural = 'Ингредиенты рецепта'
-        unique_together = ('ingredient', 'recipe')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['ingredient', 'recipe'],
+                name='unique_subscription'
+            )
+        ]
 
     def __str__(self):
         return (f'{self.ingredient.name} - {self.amount}'
@@ -171,6 +176,13 @@ class PurchaseList(models.Model):
     class Meta:
         verbose_name = 'Покупка'
         verbose_name_plural = 'Покупки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='unique_recipe'
+            )
+        ]
+        
 
     def __str__(self):
         return f'Покупка: {self.recipe.name}'
