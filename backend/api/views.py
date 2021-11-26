@@ -3,21 +3,19 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .filters import RecipeFilter, SearchFilter
 from .paginators import PageNumberPaginatorModified
 from .permissions import AuthorOrReadOnly
-
 from recipes.models import (
     Favorite, Ingredient, PurchaseList,
     Recipe, Subscribe, Tag
 )
-
 from .serializers import (
     CreateRecipeSerializer, FavoriteSerializer,
     IngredientSerializer, PurchaseListSerializer,
@@ -61,6 +59,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 @api_view(['get'])
+@permission_classes([IsAuthenticated])
 def show_subscribs(request):
     user_obj = User.objects.filter(following__user=request.user)
     paginator = PageNumberPagination()
@@ -75,6 +74,7 @@ def show_subscribs(request):
 
 
 class SubscribeView(APIView):
+    permission_classes=[IsAuthenticated]
 
     def get(self, request, user_id):
         user = request.user
@@ -101,6 +101,7 @@ class SubscribeView(APIView):
 
 
 class FavoriteViewSet(APIView):
+    permission_classes=[IsAuthenticated]
 
     def get(self, request, recipe_id):
         user = request.user.id
@@ -130,6 +131,7 @@ class FavoriteViewSet(APIView):
 
 
 class PurchaseListView(APIView):
+    permission_classes=[IsAuthenticated]
 
     def get(self, request, recipe_id):
         user = request.user.id
@@ -160,6 +162,7 @@ class PurchaseListView(APIView):
 
 
 class DownloadPurchaseList(APIView):
+    permission_classes=[IsAuthenticated]
 
     def get(self, request):
         shopping_cart = request.user.purchases.all()
