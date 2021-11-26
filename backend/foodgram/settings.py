@@ -7,9 +7,12 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('DJANGO_KEY')
-
 DEBUG = False
+
+if DEBUG:
+    SECRET_KEY = "debug"
+else:
+    SECRET_KEY = os.environ.get('DJANGO_KEY')
 
 ALLOWED_HOSTS = [
 	'178.154.241.226',

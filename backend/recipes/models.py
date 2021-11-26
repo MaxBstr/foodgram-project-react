@@ -90,7 +90,7 @@ class IngredientRecipe(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['ingredient', 'recipe'],
-                name='unique_subscription'
+                name='unique_ingredient_recipe'
             )
         ]
 
@@ -145,7 +145,7 @@ class Favorite(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_recipe'
+                name='unique_favorites'
             )
         ]
         verbose_name = 'Избранное'
@@ -179,7 +179,7 @@ class PurchaseList(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_recipe'
+                name='unique_purchase_list'
             )
         ]
         

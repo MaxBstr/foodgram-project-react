@@ -168,6 +168,7 @@ class DownloadPurchaseList(APIView):
         shopping_cart = request.user.purchases.all()
         purchase_list = {}
         for purchase in shopping_cart:
+            #  не знаю, как переделать, только ломаю проект
             ingredients = purchase.recipe.ingredientrecipe_set.all()
             for ingredient in ingredients:
                 name = ingredient.ingredient.name
@@ -179,8 +180,9 @@ class DownloadPurchaseList(APIView):
                         'unit': unit
                     }
                 else:
-                    purchase_list[name]['amount'] = (purchase_list[name]
-                                                     ['amount'] + amount)
+                    purchase_list[name]['amount'] = (
+                        purchase_list[name]['amount'] + amount
+                    )
         wishlist = []
         for item in purchase_list:
             wishlist.append(f'{item} ({purchase_list[item]["unit"]}) — '
