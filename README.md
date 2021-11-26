@@ -1,7 +1,7 @@
 # Выпускной проект Яндекс.Практикума
 # Продуктовый помощник Foodgram
 
-Проект развернут по адресу:  http://178.154.241.226/
+Проект развернут по адресу:  http://maxbstr.ydns.eu/
 
 ## Описание сервиса
 
@@ -49,3 +49,5 @@ docker-compose up -d --build
 - sudo docker-compose exec backend python manage.py loaddata ingredients.json
 ```
 
+## Тестовые пользователи:
+### Админ: admin@admin.com admin123
