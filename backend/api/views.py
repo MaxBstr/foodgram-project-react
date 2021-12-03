@@ -165,7 +165,8 @@ class DownloadPurchaseList(APIView):
     permission_classes=[IsAuthenticated]
 
     def get(self, request):
-        shopping_cart = request.user.purchases.all()
+        # purchases -> recipes -> ingredients
+        shopping_cart = request.user.purchases.all().filter()
         purchase_list = {}
         for purchase in shopping_cart:
             #  не знаю, как переделать, только ломаю проект
