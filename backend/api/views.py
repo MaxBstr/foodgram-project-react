@@ -75,7 +75,7 @@ def show_subscribs(request):
 
 
 class SubscribeView(APIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):
         user = request.user
@@ -102,7 +102,7 @@ class SubscribeView(APIView):
 
 
 class FavoriteViewSet(APIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, recipe_id):
         user = request.user.id
@@ -132,7 +132,7 @@ class FavoriteViewSet(APIView):
 
 
 class PurchaseListView(APIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, recipe_id):
         user = request.user.id
@@ -163,13 +163,13 @@ class PurchaseListView(APIView):
 
 
 class DownloadPurchaseList(APIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # purchases -> recipes -> ingredients
-        # ingredients = purchase.recipe.ingredientrecipe_set.all()
+        #  purchases -> recipes -> ingredients
         recipes = request.user.purchases.all().values_list('recipe', flat=True)
-        ingredients = IngredientRecipe.objects.filter(recipe__in=recipes).all().values_list('ingredient', flat=True)
+        ingredients = IngredientRecipe.objects.filter(
+            recipe__in=recipes).all().values_list('ingredient', flat=True)
         purchase_list = {}
 
         for ingredient in ingredients:
