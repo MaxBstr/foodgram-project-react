@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from backend.recipes.models import IngredientRecipe
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -166,24 +167,24 @@ class DownloadPurchaseList(APIView):
 
     def get(self, request):
         # purchases -> recipes -> ingredients
-        shopping_cart = request.user.purchases.all().filter()
+        # ingredients = purchase.recipe.ingredientrecipe_set.all()
+        recipes = request.user.purchases.all().values_list('recipe', flat=True)
+        ingredients = IngredientRecipe.objects.filter(recipe__in=recipes).all().values_list('ingredient', flat=True)
         purchase_list = {}
-        for purchase in shopping_cart:
-            #  не знаю, как переделать, только ломаю проект
-            ingredients = purchase.recipe.ingredientrecipe_set.all()
-            for ingredient in ingredients:
-                name = ingredient.ingredient.name
-                amount = ingredient.amount
-                unit = ingredient.ingredient.measurement_unit
-                if name not in purchase_list:
-                    purchase_list[name] = {
-                        'amount': amount,
-                        'unit': unit
-                    }
-                else:
-                    purchase_list[name]['amount'] = (
-                        purchase_list[name]['amount'] + amount
-                    )
+
+        for ingredient in ingredients:
+            name = ingredient.ingredient.name
+            amount = ingredient.amount
+            unit = ingredient.ingredient.measurement_unit
+            if name not in purchase_list:
+                purchase_list[name] = {
+                    'amount': amount,
+                    'unit': unit
+                }
+            else:
+                purchase_list[name]['amount'] = (
+                    purchase_list[name]['amount'] + amount
+                )
         wishlist = []
         for item in purchase_list:
             wishlist.append(f'{item} ({purchase_list[item]["unit"]}) — '
