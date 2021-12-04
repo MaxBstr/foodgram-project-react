@@ -107,6 +107,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                     'Количество ингредиента не может быть '
                     'отрицательным числом.'
                 )
+        if data['recipe'].cooking_time <= 0:
+            raise serializers.ValidationError('Время готовки задано не верно!')
         return data
 
     def calc_ingredients_amount(self, ingredients, recipe):
@@ -144,7 +146,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             tags = validated_data.pop('tags')
             instance.tags.set(tags)
 
-        super().update()
+        super().update(instance, validated_data)
         return instance
 
     def to_representation(self, instance):
